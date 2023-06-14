@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import './App.css';
 import Demo from './components/Demo';
 import Hero from './components/Hero';
+import { config } from 'dotenv';
 const App = () => {
     return (
 <main>

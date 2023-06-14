@@ -1,15 +1,40 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import { useState,useEffect } from "react";
-import {copy,linkIcon,loader,tick} from '../assets';
+import React, { useState, useEffect } from "react";
+import { copy, linkIcon, loader, tick } from "../assets";
+import { useLazyGetSummaryQuery } from "../services/article";
 const Demo = () => {
+
+  //save in the local storage
+  useEffect( ()=>{
+    const articlesFromLocalStorage = JSON.parse(
+      localStorage.getItem('articles')
+    )
+    if(articlesFromLocalStorage){
+      setAllArticles(articlesFromLocalStorage)
+    }
+  },[]);
 
   const [article,setArticle] = useState({
     url:'',
     summary:'',
   });
 
+  const [allArticles, setAllArticles] = useState([]);
+
+  const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+
   const handleSubmit = async(e)=>{
-    alert('Submitted'); /* here where we call the api to make a request to AI api, using Redux */
+    e.preventDefault();
+    const {data} = await getSummary({articleUrl:article.url}); /* here where we call the api to make a request to AI api, using Redux */
+
+    if(data?.summary){
+      const newArticle = { ...article,summary:data.summary};
+      const updatedAllArticles = [newArticle, ...allArticles];
+      setArticle(newArticle);
+      setAllArticles(updatedAllArticles);
+      localStorage.setItem('articles',JSON.stringify(updatedAllArticles))
+    }
   }
 
   return (
