@@ -4,6 +4,7 @@ const Hero = () => {
     <header className="w-full flex justify-center items-center flex-col">
       <nav className="flex justify-between items-center w-full mb-10 pt-3">
         <img src={logo} alt="sumz_logo" className="w-28 object-contain" />
+        <span className="blue_gradient">By Hesham Eldawy</span>
         <button
           type="button"
           onClick={() => window.open("https://github.com/HeshamD")}
